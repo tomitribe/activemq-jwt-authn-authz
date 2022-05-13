@@ -1,0 +1,19 @@
+= Apache ActiveMQ with JWT based authentication and authorization
+
+ActiveMQ has default support to authentication and authorization using file based approach (flat or xml) and using JAAS.
+This example shows how to leverage JWT tokens to authenticate and authorize users.
+For more details, see blog
+
+== Building
+
+This project contains necessary API implementations for basic JWT usage.
+When building this project, it will create a new ActiveMQ zip file with all required dependencies and classes.
+This makes it easier to then run and test it.
+
+Build the project with `mvn clean install`.
+In the `target/` directory you will find a zip file named `apache-activemq-0.0.1-SNAPSHOT.zip`.
+
+== Running the example
+
+You can unzip the produce zip file and run ActiveMQ as usual using scripts in `bin/` directory.
+
