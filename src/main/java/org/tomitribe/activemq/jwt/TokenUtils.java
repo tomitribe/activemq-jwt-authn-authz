@@ -32,7 +32,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -127,7 +126,7 @@ public class TokenUtils {
         return pem.trim();
     }
 
-    public static String token(final boolean managerUser) {
+    public static String token(final String name, final List<String> groups) {
         final JSONObject claims = new JSONObject();
 
         claims.put(Claims.iss.name(), JwtAuthenticationPlugin.JWT_ISSUER);
@@ -137,15 +136,8 @@ public class TokenUtils {
         claims.put(Claims.exp.name(), currentTimeInSecs + 300);
         claims.put(Claims.jti.name(), "a-123");
         claims.put(Claims.sub.name(), "24400320");
-        claims.put(Claims.preferred_username.name(), managerUser ? "alice" : "bob");
+        claims.put(Claims.preferred_username.name(), name);
         claims.put(Claims.aud.name(), "s6BhdRkqt3");
-        List<String> groups = new ArrayList<>();
-        if (managerUser) {
-            groups.add("manager");
-            groups.add("reader");
-        } else {
-            groups.add("reader");
-        }
         claims.put(Claims.groups.name(), groups);
 
         try {
