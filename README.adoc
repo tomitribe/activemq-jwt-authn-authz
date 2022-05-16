@@ -17,3 +17,25 @@ In the `target/` directory you will find a zip file named `apache-activemq-0.0.1
 
 You can unzip the produce zip file and run ActiveMQ as usual using scripts in `bin/` directory.
 
+== JWT Authentication plugin
+
+The code resides in 2 classes
+
+* `JwtAuthenticationPlugin` to configure the authentication and set up the filter chain
+* `JwtAuthenticationBroker` which is the actual `BrokerFilter` implementation
+
+The `JwtAuthenticationPlugin` allows you to read the configuration in order to instantiate the `JwtAuthenticationBroker`.
+It does not have any logic and it's rather simple because all configuration is hard coded with constants.
+
+The `JwtAuthenticationBroker` will get invoked during the lifecyle of the broker and allow authentication to be performed.
+This is where the JWT will be extracted and validated in order to read the user principal and its groups.
+
+The `authenticate` method will extract the username and password. For simplicity, the token is passed in using the username.
+It will then use JOSE to configure the public key to validate the signature.
+Once done, we can start reading the JWT and extract what we need from it: the username and the groups.
+
+== Authorization
+
+The authorization part can be done using the built-in `SimpleAuthorizationPlugin`.
+The unit test uses it in order to set some destination policies and test them against some JWT tokens with different claims and groups.
+
